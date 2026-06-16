@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img id="thumb" width="300">
+<h2 id="title"></h2>
+<p id="channel"></p>
+    <input id="url">
+<button onclick="sendUrl()">Send</button>
+<pre id="output"></pre>
+<script>
+async function sendUrl() {
+
+    const url =
+        document.getElementById("url").value;
+
+    const response = await fetch(
+        "http://localhost:3000/metadata",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                url: url
+            })
+        }
+    );
+
+    const data = await response.json();
+
+document.getElementById("thumb").src =
+    data.thumbnail;
+
+document.getElementById("title").innerText =
+    data.title;
+
+document.getElementById("channel").innerText =
+    data.channel;
+}
+</script>
+
+</body>
+</html>
