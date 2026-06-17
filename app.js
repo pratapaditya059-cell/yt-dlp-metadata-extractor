@@ -36,7 +36,9 @@ app.post("/metadata", (req, res) => {
     title: videoData.title,
     channel: videoData.channel,
     thumbnail: videoData.thumbnail,
-    duration: videoData.duration
+    duration: videoData.duration,
+    views: videoData.view_count,
+    uploadDate: videoData.upload_date
 });
         }
     );

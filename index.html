@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
+<body>    <input id="url">
+<button onclick="sendUrl()">Send</button>
     <img id="thumb" width="300">
 <h2 id="title"></h2>
 <p id="channel"></p>
-    <input id="url">
-<button onclick="sendUrl()">Send</button>
-<pre id="output"></pre>
+<p id="duration"></p>
+<p id="views"></p>
+<p id="uploadDate"></p>
 <script>
 async function sendUrl() {
 
@@ -35,12 +36,28 @@ async function sendUrl() {
 
 document.getElementById("thumb").src =
     data.thumbnail;
+document.getElementById("thumb").style.display = "block";
+document.getElementById("thumb").style.paddingTop = "10px";
 
 document.getElementById("title").innerText =
     data.title;
 
 document.getElementById("channel").innerText =
-    data.channel;
+    `Channel: ${data.channel}`;
+
+document.getElementById("duration").innerText =
+    `Duration: ${data.duration} sec`;
+
+document.getElementById("views").innerText =
+    `Views: ${data.views.toLocaleString()}`;
+
+const date = data.uploadDate;
+
+const formattedDate =
+    `${date.slice(6, 8)}-${date.slice(4, 6)}-${date.slice(0, 4)}`;
+
+document.getElementById("uploadDate").innerText =
+    `Uploaded: ${formattedDate}`;
 }
 </script>
 
