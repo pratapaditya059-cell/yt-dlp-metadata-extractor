@@ -3,63 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>YouTube Metadata Extractor</title>
 </head>
-<body>    <input id="url">
-<button onclick="sendUrl()">Send</button>
-    <img id="thumb" width="300">
-<h2 id="title"></h2>
-<p id="channel"></p>
-<p id="duration"></p>
-<p id="views"></p>
-<p id="uploadDate"></p>
-<script>
-async function sendUrl() {
+<body>
+
+    <input id="url" placeholder="Enter YouTube URL here">
+    <button onclick="sendUrl()">Send</button>
+
+    <br><br>
+
+    <img id="thumb" width="300" style="display:none;">
+
+    <h2 id="title"></h2>
+
+    <p id="channel"></p>
+
+    <p id="duration"></p>
+
+    <p id="views"></p>
+
+    <p id="uploadDate"></p>
+
+    <h3 id="formatsHeading" style="display:none;">
+    Available Formats
+</h3>
+
+<select id="formats" style="display:none;">
+    <option value="">Select a format</option>
+</select>
+<button id="downloadBtn" onclick="downloadVideo()" style="display:none;">Download</button>
+
+    <script>
+
+        async function sendUrl() {
+
+            const url =
+                document.getElementById("url").value;
+
+            const response = await fetch(
+                "http://localhost:3000/metadata",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        url: url
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            document.getElementById("thumb").src =
+                data.thumbnail;
+
+            document.getElementById("thumb").style.display =
+                "block";
+
+            document.getElementById("title").innerText =
+                data.title;
+
+            document.getElementById("channel").innerText =
+                `Channel: ${data.channel}`;
+
+            document.getElementById("duration").innerText =
+                `Duration: ${data.duration} sec`;
+
+            document.getElementById("views").innerText =
+                `Views: ${data.views.toLocaleString()}`;
+
+            const date = data.uploadDate;
+
+            const formattedDate =
+                `${date.slice(6, 8)}-${date.slice(4, 6)}-${date.slice(0, 4)}`;
+
+            document.getElementById("uploadDate").innerText =
+                `Uploaded: ${formattedDate}`;
+
+            document.getElementById("formatsHeading").style.display =
+    "block";
+
+document.getElementById("formats").style.display =
+    "block";
+    document.getElementById("downloadBtn").style.display = "inline-block";
+
+            const formatsSelect =
+                document.getElementById("formats");
+
+            formatsSelect.innerHTML =
+                '<option value="">Select a format</option>';
+
+            data.formats.forEach(f => {
+
+                const option =
+                    document.createElement("option");
+
+                option.value = f.id;
+
+                option.innerText =
+                    `${f.ext.toUpperCase()} - ${f.resolution} (ID ${f.id})`;
+
+                formatsSelect.appendChild(option);
+
+            });
+
+        }
+
+        async function downloadVideo() {
+
+    const selectedFormat =
+        document.getElementById("formats").value;
 
     const url =
         document.getElementById("url").value;
 
     const response = await fetch(
-        "http://localhost:3000/metadata",
+        "http://localhost:3000/download",
         {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                url: url
+                url: url,
+                formatId: selectedFormat
             })
         }
     );
 
     const data = await response.json();
 
-document.getElementById("thumb").src =
-    data.thumbnail;
-document.getElementById("thumb").style.display = "block";
-document.getElementById("thumb").style.paddingTop = "10px";
-
-document.getElementById("title").innerText =
-    data.title;
-
-document.getElementById("channel").innerText =
-    `Channel: ${data.channel}`;
-
-document.getElementById("duration").innerText =
-    `Duration: ${data.duration} sec`;
-
-document.getElementById("views").innerText =
-    `Views: ${data.views.toLocaleString()}`;
-
-const date = data.uploadDate;
-
-const formattedDate =
-    `${date.slice(6, 8)}-${date.slice(4, 6)}-${date.slice(0, 4)}`;
-
-document.getElementById("uploadDate").innerText =
-    `Uploaded: ${formattedDate}`;
+    console.log(data);
 }
-</script>
+
+    </script>
 
 </body>
 </html>
