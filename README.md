@@ -1,14 +1,18 @@
-# YouTube Metadata Extractor
+# YouTube Downloader
 
-A full-stack application that extracts YouTube video metadata using yt-dlp.
+A full-stack YouTube downloader built with Node.js, Express, and yt-dlp.
 
 ## Features
 
-* Extract video title
-* Extract channel name
-* Extract video thumbnail
-* Node.js + Express backend
-* Real-time metadata retrieval using yt-dlp
+* Extract video metadata
+* Display video thumbnail
+* Display title and channel name
+* Display upload date
+* Display view count
+* Display duration
+* Fetch available video/audio formats
+* Select download format
+* Download videos directly using yt-dlp
 
 ## Tech Stack
 
@@ -17,33 +21,64 @@ A full-stack application that extracts YouTube video metadata using yt-dlp.
 * yt-dlp
 * HTML
 * JavaScript
+* Fetch API
 
 ## Installation
 
 ```bash
 npm install
+pip install yt-dlp
 ```
 
-## Run the Application
+## Run
+
+Start the backend:
 
 ```bash
 node app.js
 ```
 
-Open `index.html` in your browser and enter a YouTube URL.
+Open:
+
+```txt
+index.html
+```
+
+in your browser.
 
 ## Project Structure
 
 ```txt
-app.js          # Express backend
-index.html      # Frontend
-package.json    # Dependencies
+node-learning/
+│
+├── app.js
+├── index.html
+├── package.json
+├── package-lock.json
+├── downloads/
+└── README.md
 ```
+
+## How It Works
+
+1. Enter a YouTube URL.
+2. Fetch metadata using yt-dlp.
+3. Display available formats.
+4. Select a format.
+5. Download the video/audio.
+
+## Screenshots
+
+![Metadata Page](image.png)
+![Download preview](image-1.png)
 
 ## Future Improvements
 
-* Display video duration
-* Display view count
-* Show available download formats
-* Download audio/video
+* Better UI with CSS
+* Download progress indicator
+* Best quality video + audio merging
 * Chrome Extension integration
+* Playlist support
+* AI-generated video documentation
+
+
