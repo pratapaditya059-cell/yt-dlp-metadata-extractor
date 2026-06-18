@@ -69,8 +69,8 @@ node-learning/
 
 ## Screenshots
 
-![Metadata Page](image.png)
-![Download preview](image-1.png)
+![Metadata Page](screenshots/image.png)
+![Download preview](screenshots/image-1.png)
 
 ## Future Improvements
 
