@@ -10,19 +10,33 @@ const { exec } = require("child_process");
 
 app.post("/metadata", (req, res) => {
 
+    console.log("METADATA ROUTE HIT");
+
     const url = req.body.url;
 
-    exec(
-        `python -m yt_dlp -J "${url}"`,
+    console.log("URL RECEIVED:", url);
+
+    console.log("STARTING YT-DLP");
+
+     
+        exec(
+    `python -m yt_dlp --no-playlist -J "${url}"`,
         (error, stdout, stderr) => {
 
+            console.log("YT-DLP FINISHED");
+
             if (error) {
+                console.log(error);
                 return res.status(500).json({
                     error: error.message
                 });
             }
 
+            console.log("JSON PARSE START");
+
             const videoData = JSON.parse(stdout);
+
+            console.log("JSON PARSE DONE");
 
 const formats = videoData.formats
 .filter(f => f.ext === "mp4" || f.ext === "m4a")
@@ -46,7 +60,7 @@ res.json({
     formats: formats
 });
         }
-    );
+    )
 });
 
 app.post("/download", (req, res) => {
